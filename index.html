@@ -136,6 +136,46 @@
     color: var(--card-line); letter-spacing:.1em; position:relative; z-index:2;
   }
 
+  /* ---------- lamp switch: neon VAMOS sign ---------- */
+  .lamp-switch{
+    margin-top: 38px; display:flex; flex-direction:column; align-items:center; gap:20px;
+    position:relative; z-index:2;
+  }
+  .neon-sign{
+    font-size: clamp(2.4rem, 11vw, 5.2rem);
+    color: transparent;
+    -webkit-text-stroke: 1px var(--card-line);
+    text-shadow:none;
+    transition: color .2s ease, text-shadow .2s ease, -webkit-text-stroke-color .2s ease;
+  }
+  .neon-sign.lit{
+    color: var(--amber);
+    -webkit-text-stroke: 1px var(--amber);
+    text-shadow:
+      0 0 8px rgba(255,178,56,.9),
+      0 0 22px rgba(255,178,56,.7),
+      0 0 48px rgba(255,178,56,.45),
+      0 0 90px rgba(255,178,56,.25);
+    animation: neon-flicker 2.6s infinite;
+  }
+  @keyframes neon-flicker{
+    0%, 19%, 21%, 23%, 54%, 56%, 100%{ opacity:1; }
+    20%, 22%, 55%{ opacity:.35; }
+  }
+  .lamp-btn{
+    font-family:'IBM Plex Mono', monospace; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase;
+    background: transparent; border:1px solid var(--card-line); color: var(--dim);
+    padding: 11px 24px; border-radius: 30px; cursor:pointer; transition: all .2s;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .lamp-btn:hover{ border-color: var(--amber); color: var(--paper); }
+  .lamp-btn:active{ transform: scale(.95); }
+  .lamp-btn.on{ color:#0b0c0f; background: var(--amber); border-color: var(--amber); }
+
+  @media (prefers-reduced-motion: reduce){
+    .neon-sign.lit{ animation:none !important; }
+  }
+
   section{ padding: 90px 28px; max-width: 1080px; margin: 0 auto; }
   .section-head{ margin-bottom: 46px; }
   .section-head .eyebrow{ margin-bottom: 8px; }
@@ -271,6 +311,11 @@
   <h1>We don't<br>light rooms.<br><span>We reveal them.</span></h1>
   <p class="sub">Every light, placed on purpose. From a 7,200-pixel building façade to a café photobooth — I design the light, draft the documentation, and make sure contractors know exactly what I mean.</p>
   <div class="hint">move your cursor here — that's the spotlight ↑</div>
+
+  <div class="lamp-switch">
+    <div class="neon-sign display" id="neonSign">Vamos!</div>
+    <button class="lamp-btn" id="lampBtn">💡 Nyalain Lampu</button>
+  </div>
 </section>
 
 <section id="about">
@@ -449,6 +494,39 @@
     </div>
 
   </div>
+
+  <div class="misc">
+    <h3>Proyek Lainnya</h3>
+    <div class="misc-list">
+      <span class="misc-item">Arpose</span>
+      <span class="misc-item">Autograph Tower</span>
+      <span class="misc-item">Bank Indonesia</span>
+      <span class="misc-item">BCA Blibli Mall</span>
+      <span class="misc-item">BCA Blibli Office Tower</span>
+      <span class="misc-item">Composite Interior</span>
+      <span class="misc-item">Fitness First - Bintaro BXC</span>
+      <span class="misc-item">Form4 Gym Bali</span>
+      <span class="misc-item">G-House PIK</span>
+      <span class="misc-item">Gym (Mr. Liming)</span>
+      <span class="misc-item">Hi Avenue Padel Bekasi</span>
+      <span class="misc-item">Indonesia One Facade</span>
+      <span class="misc-item">ITA SCBD</span>
+      <span class="misc-item">Jimmy JAW</span>
+      <span class="misc-item">Jimmy Residential PIK</span>
+      <span class="misc-item">JW Marriott Ubud</span>
+      <span class="misc-item">Karaoke PIK</span>
+      <span class="misc-item">My Home Renovation Project</span>
+      <span class="misc-item">Octagon Foxx</span>
+      <span class="misc-item">Panel for SBP Lighting</span>
+      <span class="misc-item">Satu Lapan Amici</span>
+      <span class="misc-item">Upperwest BSD</span>
+      <span class="misc-item">W Hotel Seminyak</span>
+      <span class="misc-item">Wolfgang's Steak House Bali</span>
+      <span class="misc-item">Woo Bar at W Hotel Bali</span>
+      <span class="misc-item">YOLO Padel Pluit</span>
+      <span class="misc-item">Zouk Singapore Wire Mesh</span>
+    </div>
+  </div>
 </section>
 
 <section class="contact" id="contact">
@@ -493,6 +571,15 @@
     });
     stage.addEventListener('mouseleave', () => { dot.style.opacity = 0; });
   }
+
+  // lamp switch — tap to light up the VAMOS neon sign
+  const lampBtn = document.getElementById('lampBtn');
+  const neonSign = document.getElementById('neonSign');
+  lampBtn.addEventListener('click', () => {
+    const isOn = neonSign.classList.toggle('lit');
+    lampBtn.classList.toggle('on', isOn);
+    lampBtn.textContent = isOn ? '🔦 Matiin Lampu' : '💡 Nyalain Lampu';
+  });
 
   // dimmer / house lights
   const dim = document.getElementById('dim');
